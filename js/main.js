@@ -23,7 +23,7 @@ class Ball extends GameObject {
 
 let font = new FontFace(
   "PressStart2P",
-  "url(../../../static/fonts/PressStart2P-Regular.ttf)"
+  "url(../../static/fonts/PressStart2P-Regular.ttf)"
 );
 let /** @type {HTMLCanvasElement} */ canvas =
     document.getElementById("game-canvas");
