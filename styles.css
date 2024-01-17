@@ -1,7 +1,4 @@
-@font-face {
-    font-family: PressStart2P;
-    src: url("./static/fonts/PressStart2P-Regular.ttf");
-}
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 html {
   overflow: hidden;

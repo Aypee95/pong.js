@@ -62,7 +62,7 @@ function gameInit(
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = "30px PressStart2P";
+  ctx.font = "30px 'Press Start 2P'";
   ctx.textAlign = "center";
   ctx.fillText(
     `Player 1: ${scorePlayer1}   Player 2: ${scorePlayer2}`,
@@ -143,7 +143,6 @@ function gameLoop() {
     ] = gameInit(canvas, ctx);
   }
 
-  console.log(ball);
   draw();
   window.requestAnimationFrame(gameLoop);
 }
