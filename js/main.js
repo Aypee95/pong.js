@@ -62,6 +62,7 @@ function gameInit(
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.font = "30px Arial";
   ctx.font = "30px 'Press Start 2P'";
   ctx.textAlign = "center";
   ctx.fillText(
