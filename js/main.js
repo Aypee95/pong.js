@@ -21,10 +21,6 @@ class Ball extends GameObject {
   }
 }
 
-let font = new FontFace(
-  "PressStart2P",
-  "url(../../static/fonts/PressStart2P-Regular.ttf)"
-);
 let /** @type {HTMLCanvasElement} */ canvas =
     document.getElementById("game-canvas");
 canvas.width = canvas.getBoundingClientRect().width;
@@ -66,17 +62,13 @@ function gameInit(
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  font.load().then((font) => {
-    document.fonts.add(font);
-    console.log("Font loaded");
-    ctx.font = "30px PressStart2P";
-    ctx.textAlign = "center";
-    ctx.fillText(
-      `Player 1: ${scorePlayer1}   Player 2: ${scorePlayer2}`,
-      canvas.width / 2,
-      (canvas.height / 100) * 5
-    );
-  });
+  ctx.font = "30px PressStart2P";
+  ctx.textAlign = "center";
+  ctx.fillText(
+    `Player 1: ${scorePlayer1}   Player 2: ${scorePlayer2}`,
+    canvas.width / 2,
+    (canvas.height / 100) * 5
+  );
   ctx.beginPath();
   ctx.rect(ball.x, ball.y, ball.width, ball.height);
   ctx.rect(player1.x, player1.y, player1.width, player1.height);

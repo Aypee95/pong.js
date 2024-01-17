@@ -1,3 +1,8 @@
+@font-face {
+    font-family: PressStart2P;
+    src: url("./static/fonts/PressStart2P-Regular.ttf");
+}
+
 html {
   overflow: hidden;
 }
