@@ -21,6 +21,21 @@ class Ball extends GameObject {
   }
 }
 
+let volumeOn = true;
+
+let volumeButton = document.getElementById("volume-button");
+
+volumeButton.addEventListener("click", () => {
+  if (volumeOn) {
+    volumeButton.classList.remove("bi-volume-up");
+    volumeButton.classList.add("bi-volume-mute");
+  } else {
+    volumeButton.classList.remove("bi-volume-mute");
+    volumeButton.classList.add("bi-volume-up");
+  }
+  volumeOn = !volumeOn;
+});
+
 let /** @type {HTMLCanvasElement} */ canvas =
     document.getElementById("game-canvas");
 canvas.width = canvas.getBoundingClientRect().width;
@@ -80,9 +95,12 @@ function draw() {
 }
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowUp" || e.key === "w") {
+  if ((e.key === "ArrowUp" || e.key === "w") && player1.y > 0) {
     player1.y -= 10;
-  } else if (e.key === "ArrowDown" || e.key === "s") {
+  } else if (
+    (e.key === "ArrowDown" || e.key === "s") &&
+    player1.y < canvas.height - player1.height
+  ) {
     player1.y += 10;
   }
 });
@@ -90,26 +108,38 @@ document.addEventListener("keydown", (e) => {
 function gameLoop() {
   // Reflection player 1
   if (
-    ball.x <= player1.x &&
+    ball.x <= player1.x + player1.width &&
+    ball.x >= player1.x &&
     ball.y >= player1.y &&
     ball.y <= player1.y + player1.height
   ) {
+    const playerBounceSound = new Audio("../sounds/sound2.mp3");
+    if (volumeOn) {
+      playerBounceSound.play();
+    }
     ball.moveDirX *= -1;
-  }
-  // Reflection player 2
-  if (
-    ball.x >= player2.x &&
+  } else if (
+    ball.x >= player2.x - player2.width &&
+    ball.x <= player2.x &&
     ball.y >= player2.y &&
     ball.y <= player2.y + player2.height
   ) {
+    const playerBounceSound = new Audio("../sounds/sound2.mp3");
+    if (volumeOn) {
+      playerBounceSound.play();
+    }
     ball.moveDirX *= -1;
   }
   // Top and bottom
   if (ball.y <= 0 || ball.y >= canvas.height - ball.height) {
+    const wallBounceSound = new Audio("../sounds/sound1.mp3");
+    if (volumeOn) {
+      wallBounceSound.play();
+    }
     ball.moveDirY *= -1;
   }
-  // Left and right
 
+  // Left and right
   if (ball.moveDirX === 1) {
     ball.x += 5;
   } else {
@@ -122,26 +152,27 @@ function gameLoop() {
     ball.y -= 5;
   }
 
-  if (ball.x <= 0) {
+  if (ball.x <= -(canvas.width / 100) * 5) {
     scorePlayer2++;
-    ball = undefined;
-    player1 = undefined;
-    player2 = undefined;
     [
       /** @type {Ball} */ ball,
       /** @type {Paddle} */ player1,
       /** @type {Paddle} */ player2,
     ] = gameInit(canvas, ctx);
-  } else if (ball.x >= canvas.width - ball.width) {
+  } else if (ball.x >= canvas.width + (canvas.width / 100) * 5) {
     scorePlayer1++;
-    ball = undefined;
-    player1 = undefined;
-    player2 = undefined;
     [
       /** @type {Ball} */ ball,
       /** @type {Paddle} */ player1,
       /** @type {Paddle} */ player2,
     ] = gameInit(canvas, ctx);
+  }
+
+
+  if (player2.y < ball.y && player2.y < (canvas.height - player2.height)) {
+    player2.y += 5;
+  } else if (player2.y > ball.y && player2.y > 0) {
+    player2.y -= 5;
   }
 
   draw();
