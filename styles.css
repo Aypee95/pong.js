@@ -1,14 +1,15 @@
 html {
-    overflow: hidden;
+  overflow: hidden;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 .game-canvas {
-    height: 100dvh;
-    width: 100dvw;
-    background-color: black;
+  height: 100dvh;
+  width: 100dvw;
+  background-color: black;
 }
