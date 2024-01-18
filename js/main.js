@@ -115,7 +115,7 @@ document.addEventListener("keydown", (e) => {
     player1.y < canvas.height - player1.height
   ) {
     player1.y += 10;
-  } else if (e.code === "Space") {
+  } else if (e.key === " ") {
     pauseGame();
   }
 });
