@@ -24,6 +24,7 @@ class Ball extends GameObject {
 
 let volumeOn = false;
 let gamePaused = false;
+let gameOver = false;
 
 let volumeButton = document.getElementById("volume-button");
 
@@ -91,6 +92,20 @@ function draw() {
     ctx.font = "60px 'Press Start 2P'";
     ctx.fillText("PAUSED", canvas.width / 2, canvas.height / 2);
   }
+  if (gameOver) {
+    ctx.font = "60px 'Press Start 2P'";
+    ctx.fillText(`GAME OVER`, canvas.width / 2, (canvas.height / 100) * 15);
+    ctx.fillText(
+      `Player ${scorePlayer1 > scorePlayer2 ? 1 : 2} wins!`,
+      canvas.width / 2,
+      (canvas.height / 100) * 25
+    );
+    ctx.fillText(
+      `Press Space to restart`,
+      canvas.width / 2,
+      (canvas.height / 100) * 35
+    );
+  }
   ctx.beginPath();
   ctx.rect(ball.x, ball.y, ball.width, ball.height);
   ctx.rect(player1.x, player1.y, player1.width, player1.height);
@@ -115,8 +130,18 @@ document.addEventListener("keydown", (e) => {
     player1.y < canvas.height - player1.height
   ) {
     player1.y += 10;
-  } else if (e.key === " ") {
+  } else if (e.key === " " && !gameOver) {
     pauseGame();
+  } else if (e.key === " " && gameOver) {
+    gameOver = false;
+    scorePlayer1 = 0;
+    scorePlayer2 = 0;
+    [
+      /** @type {Ball} */ ball,
+      /** @type {Paddle} */ player1,
+      /** @type {Paddle} */ player2,
+    ] = gameInit(canvas, ctx);
+    gameLoop();
   }
 });
 
@@ -124,8 +149,8 @@ function gameLoop() {
   // Reflection player 1
   if (
     ball.x <= player1.x + player1.width &&
-    ball.x >= player1.x &&
-    ball.y >= player1.y &&
+    ball.x > player1.x &&
+    ball.y > player1.y &&
     ball.y <= player1.y + player1.height
   ) {
     const playerBounceSound = new Audio("../sounds/sound2.mp3");
@@ -189,8 +214,12 @@ function gameLoop() {
     player2.y -= 5;
   }
 
+  if (scorePlayer1 >= 5 || scorePlayer2 >= 5) {
+    gameOver = true;
+  }
+
   draw();
-  if (!gamePaused) {
+  if (!gamePaused && !gameOver) {
     window.requestAnimationFrame(gameLoop);
   }
 }
