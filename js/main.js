@@ -18,10 +18,12 @@ class Ball extends GameObject {
     super(x, y, width, height);
     this.moveDirX = Math.random() > 0.5 ? 1 : -1;
     this.moveDirY = Math.random() > 0.5 ? 1 : -1;
+    this.speed = 6;
   }
 }
 
-let volumeOn = true;
+let volumeOn = false;
+let gamePaused = false;
 
 let volumeButton = document.getElementById("volume-button");
 
@@ -85,6 +87,10 @@ function draw() {
     canvas.width / 2,
     (canvas.height / 100) * 5
   );
+  if (gamePaused) {
+    ctx.font = "60px 'Press Start 2P'";
+    ctx.fillText("PAUSED", canvas.width / 2, canvas.height / 2);
+  }
   ctx.beginPath();
   ctx.rect(ball.x, ball.y, ball.width, ball.height);
   ctx.rect(player1.x, player1.y, player1.width, player1.height);
@@ -92,6 +98,13 @@ function draw() {
   ctx.fillStyle = "white";
   ctx.closePath();
   ctx.fill();
+}
+
+function pauseGame() {
+  gamePaused = !gamePaused;
+  if (!gamePaused) {
+    gameLoop();
+  }
 }
 
 document.addEventListener("keydown", (e) => {
@@ -102,6 +115,8 @@ document.addEventListener("keydown", (e) => {
     player1.y < canvas.height - player1.height
   ) {
     player1.y += 10;
+  } else if (e.code === "Space") {
+    pauseGame();
   }
 });
 
@@ -141,15 +156,15 @@ function gameLoop() {
 
   // Left and right
   if (ball.moveDirX === 1) {
-    ball.x += 5;
+    ball.x += ball.speed;
   } else {
-    ball.x -= 5;
+    ball.x -= ball.speed;
   }
 
   if (ball.moveDirY === 1) {
-    ball.y += 5;
+    ball.y += ball.speed;
   } else {
-    ball.y -= 5;
+    ball.y -= ball.speed;
   }
 
   if (ball.x <= -(canvas.width / 100) * 5) {
@@ -168,14 +183,15 @@ function gameLoop() {
     ] = gameInit(canvas, ctx);
   }
 
-
-  if (player2.y < ball.y && player2.y < (canvas.height - player2.height)) {
+  if (player2.y < ball.y && player2.y < canvas.height - player2.height) {
     player2.y += 5;
   } else if (player2.y > ball.y && player2.y > 0) {
     player2.y -= 5;
   }
 
   draw();
-  window.requestAnimationFrame(gameLoop);
+  if (!gamePaused) {
+    window.requestAnimationFrame(gameLoop);
+  }
 }
 window.requestAnimationFrame(gameLoop);

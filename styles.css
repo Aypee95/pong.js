@@ -18,11 +18,13 @@ body {
 }
 
 #volume-button {
-    position: absolute;
-    left: 95%;
-    margin-top: 1rem;
+  position: absolute;
+  left: 95%;
+  margin-top: 1rem;
+  font-size: 4rem;
+  color: white;
 }
 
 #volume-button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
