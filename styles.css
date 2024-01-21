@@ -9,6 +9,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  background-color: black;
 }
 
 .game-canvas {
@@ -17,6 +18,27 @@ body {
   background-color: black;
 }
 
+#game-start-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Press Start 2P";
+  color: white;
+  height: 100dvh;
+  font-size: 30px;
+}
+#game-start-container > h1 {
+  font-size: 8rem;
+}
+#game-start-container > p {
+  animation: blink 2s linear infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
 #volume-button {
   position: absolute;
   left: 95%;

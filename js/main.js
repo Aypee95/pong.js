@@ -23,8 +23,11 @@ class Ball extends GameObject {
 }
 
 let volumeOn = false;
-let gamePaused = false;
+let gamePaused = true;
 let gameOver = false;
+let gameFirstStart = true;
+
+
 
 let volumeButton = document.getElementById("volume-button");
 
@@ -116,6 +119,16 @@ function draw() {
 }
 
 function pauseGame() {
+  if (gameFirstStart) {
+    gameFirstStart = false;
+    /*
+    document.querySelectorAll(".game-start-element").forEach((element) => {
+      element.hidden = true;
+    });
+    */
+    // document.getElementById("game-canvas").hidden = false;
+    document.getElementById("game-start-container").remove();
+  }
   gamePaused = !gamePaused;
   if (!gamePaused) {
     gameLoop();
